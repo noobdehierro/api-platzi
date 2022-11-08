@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Api\V1\PostController;
+use App\Http\Controllers\Api\V2\PostController as V2PostController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -14,6 +16,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
+
+// V1
+Route::apiResource('v1/posts', PostController::class)
+    ->only(['show', 'index', 'destroy']);
+
+
+// V2
+Route::apiResource('v2/posts', V2PostController::class)
+    ->only(['show', 'index', 'destroy']);
