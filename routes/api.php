@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\LoginController;
 use App\Http\Controllers\Api\V1\PostController;
 use App\Http\Controllers\Api\V2\PostController as V2PostController;
 use Illuminate\Http\Request;
@@ -27,4 +28,17 @@ Route::apiResource('v1/posts', PostController::class)
 
 // V2
 Route::apiResource('v2/posts', V2PostController::class)
-    ->only(['show', 'index', 'destroy']);
+    ->only(['show', 'index', 'destroy'])
+    ->middleware('auth:sanctum');
+
+// Route::middleware('auth:sanctum')->group(function () {
+//     Route::apiResource('v1/posts', PostV1::class);
+//     Route::apiResource('v2/posts', PostV2::class);
+// });
+
+Route::post('login', [LoginController::class, 'login']);
+Route::post('register', [LoginController::class, 'register']);
+Route::get('aws', [LoginController::class, 'aws']);
+
+Route::delete('logout', [LoginController::class, 'logout'])
+    ->middleware('auth:sanctum');
